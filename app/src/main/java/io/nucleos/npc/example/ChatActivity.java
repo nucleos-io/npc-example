@@ -62,13 +62,19 @@ public class ChatActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        NuclearPore.instance(this, mUserId).register(this);
-        mConversationManager = NuclearPore.instance(this, mUserId).loadConversation(mId, mParticipants, this);
+        NuclearPore
+                .instance(this)
+                .register(this);
+        mConversationManager = NuclearPore
+                .instance(this)
+                .loadConversation(mId, mParticipants, this);
     }
 
     @Override
     protected void onDestroy() {
-        NuclearPore.instance(this, mUserId).unregister();
+        NuclearPore
+                .instance(this)
+                .unregister();
         super.onDestroy();
     }
 

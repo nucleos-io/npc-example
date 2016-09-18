@@ -52,7 +52,9 @@ public class ListActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        NuclearPore.instance(this, mUserId).loadConversations(this);
+        NuclearPore
+                .instance(this)
+                .loadConversations(this);
     }
 
     @OnClick(R.id.fab)
@@ -81,7 +83,9 @@ public class ListActivity extends AppCompatActivity implements
     }
 
     private void createOrFindConversation(String userId) {
-        NuclearPore.instance(this, mUserId).createOrFind(userId, this);
+        NuclearPore
+                .instance(this)
+                .createOrFind(userId, this);
     }
 
     @Override
