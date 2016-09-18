@@ -1,0 +1,3 @@
+[submodule "nuclear-pore"]
+	path = nuclear-pore
+	url = https://github.com/nucleos-io/nuclear-pore.git
