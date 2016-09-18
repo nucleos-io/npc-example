@@ -20,10 +20,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.nucleos.nuclearpore.backend.helper.MessageHelper;
 import io.nucleos.nuclearpore.backend.manager.ConversationManager;
-import io.nucleos.nuclearpore.backend.manager.InboxManager;
+import io.nucleos.nuclearpore.backend.manager.NuclearPore;
 
 public class ChatActivity extends AppCompatActivity implements
-        InboxManager.LayerListener,
+        NuclearPore.AuthLayerListener,
         ConversationManager.ConversationListener,
         ChatAdapter.OnItemClickListener, TextWatcher {
 
@@ -62,13 +62,13 @@ public class ChatActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        InboxManager.instance(this, mUserId, this).register();
-        mConversationManager = InboxManager.instance(this, mUserId, this).loadConversation(mId, mParticipants, this);
+        NuclearPore.instance(this, mUserId).register(this);
+        mConversationManager = NuclearPore.instance(this, mUserId).loadConversation(mId, mParticipants, this);
     }
 
     @Override
     protected void onDestroy() {
-        InboxManager.instance(this, mUserId, this).unregister();
+        NuclearPore.instance(this, mUserId).unregister();
         super.onDestroy();
     }
 

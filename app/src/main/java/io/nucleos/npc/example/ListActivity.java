@@ -20,10 +20,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.nucleos.nuclearpore.backend.manager.InboxManager;
+import io.nucleos.nuclearpore.backend.manager.NuclearPore;
 import io.nucleos.nuclearpore.util.StringHelper;
 
-public class ListActivity extends AppCompatActivity implements InboxManager.LayerListener, InboxManager.CreateConversationListener, InboxManager.LoadConversationsListener, ListAdapter.OnItemClickListener {
+public class ListActivity extends AppCompatActivity implements
+        NuclearPore.CreateConversationListener,
+        NuclearPore.LoadConversationsListener,
+        ListAdapter.OnItemClickListener {
 
     private static final String TAG = ListActivity.class.getSimpleName();
     
@@ -49,7 +52,7 @@ public class ListActivity extends AppCompatActivity implements InboxManager.Laye
     @Override
     protected void onResume() {
         super.onResume();
-        InboxManager.instance(this, mUserId, this).loadConversations(this);
+        NuclearPore.instance(this, mUserId).loadConversations(this);
     }
 
     @OnClick(R.id.fab)
@@ -78,22 +81,7 @@ public class ListActivity extends AppCompatActivity implements InboxManager.Laye
     }
 
     private void createOrFindConversation(String userId) {
-        InboxManager.instance(this, mUserId, this).createOrFind(userId, this);
-    }
-
-    @Override
-    public void onUserAuthenticatedSuccess() {
-        Log.d(TAG, "onUserAuthenticatedSuccess");
-    }
-
-    @Override
-    public void onUserAuthenticatedFailed() {
-        Log.d(TAG, "onUserAuthenticatedFailed");
-    }
-
-    @Override
-    public void onConnectionDisconnected() {
-        Log.d(TAG, "onConnectionDisconnected");
+        NuclearPore.instance(this, mUserId).createOrFind(userId, this);
     }
 
     @Override

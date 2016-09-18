@@ -10,9 +10,9 @@ import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.nucleos.nuclearpore.backend.manager.InboxManager;
+import io.nucleos.nuclearpore.backend.manager.NuclearPore;
 
-public class MainActivity extends AppCompatActivity implements InboxManager.LayerListener {
+public class MainActivity extends AppCompatActivity implements NuclearPore.AuthLayerListener {
 
     @Bind(R.id.id_layer)
     EditText mEditTextIdLayer;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements InboxManager.Laye
     @Override
     protected void onResume() {
         super.onResume();
-        InboxManager.logout();
+        NuclearPore.logout();
         mButtonConnect.setEnabled(true);
     }
 
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity implements InboxManager.Laye
                 !mEditTextIdLayer.getText().toString().trim().isEmpty()) {
             mUserId = mEditTextIdLayer.getText().toString().trim();
             mButtonConnect.setEnabled(false);
-            InboxManager
-                    .instance(this, mUserId, this)
-                    .loadLayerClient();
+            NuclearPore
+                    .instance(this, mUserId)
+                    .loadLayerClient(this);
         }
     }
 
