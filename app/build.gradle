@@ -36,4 +36,6 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:1.0.8'
 
     compile project(path: ':nuclear-pore')
+    compile 'com.layer.atlas:layer-atlas:0.3.0'
+
 }

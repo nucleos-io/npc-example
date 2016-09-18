@@ -94,7 +94,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onClick(v, position, mList.get(position).getParticipants(), mList.get(position).getId().toString());
+               // mListener.onClick(v, position, mList.get(position).getParticipants(), mList.get(position).getId().toString());
             }
         });
     }

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NuclearPore.AuthL
             mButtonConnect.setEnabled(false);
             NuclearPore
                     .instance(this)
-                    .setAuthorization("Bearer 2bf36d29378425eb376ddb37adcf0ea2")
+                    .setAuthorization("Bearer 2afa99e00cc73f246d55b27d36ff7282")
                     .setUserId(mUserId)
                     .loadLayerClient(this);
         }

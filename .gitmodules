@@ -1,3 +1,6 @@
 [submodule "nuclear-pore"]
 	path = nuclear-pore
 	url = https://github.com/nucleos-io/nuclear-pore.git
+[submodule "Atlas-Android"]
+	path = Atlas-Android
+	url = https://github.com/layerhq/Atlas-Android.git

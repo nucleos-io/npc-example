@@ -13,11 +13,12 @@
     tools:context=".ListActivity"
     tools:showIn="@layout/activity_list_inbox">
 
-    <android.support.v7.widget.RecyclerView
+    <com.layer.atlas.AtlasConversationsRecyclerView
         android:id="@+id/recyclerView"
         android:name="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager" />
+
 
 </LinearLayout>

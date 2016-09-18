@@ -12,7 +12,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.layer.atlas.AtlasConversationsRecyclerView;
+import com.layer.atlas.adapters.AtlasConversationsAdapter;
 import com.layer.sdk.messaging.Conversation;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,7 @@ public class ListActivity extends AppCompatActivity implements
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    AtlasConversationsRecyclerView mRecyclerView;
 
     private String mUserId;
     private ListAdapter mAdapter;
@@ -47,6 +50,26 @@ public class ListActivity extends AppCompatActivity implements
         setSupportActionBar(mToolbar);
 
         mUserId = getIntent().getExtras().getString("userId");
+
+        Picasso picasso = Picasso.with(this);
+
+        mRecyclerView
+                .init(NuclearPore.instance(this).getLayerClient(), picasso)
+                .setOnConversationClickListener(new AtlasConversationsAdapter.OnConversationClickListener() {
+                    public void onConversationClick(AtlasConversationsAdapter adapter, Conversation conversation) {
+                        launchMessagesList(conversation);
+                    }
+
+                    public boolean onConversationLongClick(AtlasConversationsAdapter adapter, Conversation conversation) {
+                        return false;
+                    }
+                });
+    }
+
+    private void launchMessagesList(Conversation conversation) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("chatId", conversation.getId());
+        startActivity(intent);
     }
 
     @Override
@@ -101,7 +124,7 @@ public class ListActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadConversationSuccess(List<Conversation> mConversationsList) {
-        Log.d(TAG, "onLoadConversationSuccess: " + mConversationsList.size());
+/*        Log.d(TAG, "onLoadConversationSuccess: " + mConversationsList.size());
         for (Conversation c :
                 mConversationsList) {
             Log.d(TAG, "onLoadConversationSuccess: " + StringHelper.toString(c.getParticipants()));
@@ -109,7 +132,7 @@ public class ListActivity extends AppCompatActivity implements
 
         mAdapter = new ListAdapter(mConversationsList, this, this);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();*/
     }
 
     @Override
@@ -119,10 +142,10 @@ public class ListActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View view, int position, List<String> participants, String id) {
-        Intent intent = new Intent(this, ChatActivity.class);
+       /* Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("userId", mUserId);
         intent.putStringArrayListExtra("participants", new ArrayList<String>(participants));
         intent.putExtra("chatId", id);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }

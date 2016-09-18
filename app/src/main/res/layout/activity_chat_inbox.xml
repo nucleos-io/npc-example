@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".example.ListActivity">
+    tools:context=".ChatActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -28,9 +28,10 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <TextView
+
+        <com.layer.atlas.AtlasTypingIndicator
             android:id="@+id/tv_sender"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />
 
@@ -44,9 +45,8 @@
 
             <EditText
                 android:id="@+id/et_message"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:hint="escribir aqui..." />
 
             <Button
@@ -55,10 +55,15 @@
                 android:layout_height="wrap_content"
                 android:text="send" />
 
+            <com.layer.atlas.AtlasMessageComposer
+                android:id="@+id/message_composer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
-        <include
-            layout="@layout/content_list_inbox"
+        <com.layer.atlas.AtlasMessagesRecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/layout"

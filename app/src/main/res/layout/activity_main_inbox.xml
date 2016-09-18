@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".example.MainActivity">
+    tools:context=".MainActivity">
 
 
     <EditText
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="User ID"
-        android:text="57d4a85f4b5c421000cce779"/>
+        android:text="57df28ec677b2a10007bc428"/>
 
     <Button
         android:id="@+id/button_connect"
