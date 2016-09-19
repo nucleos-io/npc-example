@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Inbox</string>
     <string name="title_activity_list">ListActivity</string>
+
+    <string-array name="array_ids">
+        <item>57df3225677b2a10007bc430</item>
+        <item>57df28ec677b2a10007bc428</item>
+    </string-array>
 </resources>

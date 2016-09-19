@@ -11,9 +11,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.layer.atlas.messagetypes.text.TextCellFactory;
+import com.layer.atlas.messagetypes.threepartimage.ThreePartImageUtils;
+import com.layer.atlas.util.Util;
+import com.layer.atlas.util.picasso.requesthandlers.MessagePartRequestHandler;
+import com.layer.sdk.LayerClient;
+import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
 import java.util.List;
 
 import io.nucleos.nuclearpore.backend.manager.NuclearPore;
+import io.nucleos.nuclearpore.util.AuthenticationProvider;
 
 /**
  * Created by msalcedo on 18/09/16.
@@ -21,10 +30,11 @@ import io.nucleos.nuclearpore.backend.manager.NuclearPore;
 public class App extends Application {
 
 
-
     private static final String TAG = App.class.getSimpleName();
 
     private static Context context;
+    private static Picasso sPicasso;
+
 
     @Override
     public void onCreate() {
@@ -33,47 +43,59 @@ public class App extends Application {
         NuclearPore.init(
                 "https://persona-mono.herokuapp.com",
                 "layer:///apps/staging/6b2a0708-6b35-11e6-9adb-181c7d0c1206",
-                "580818924250"
+                "580818924250",
+                getLayerOption()
+
         );
 
-        NuclearPore.setTest(false);
-
-    }
-
-    public static Context getAppContext() {
-        return App.context;
-    }
-
-    public static Uri ResourceToUri (Context context, int resID) {
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                context.getResources().getResourcePackageName(resID) + '/' +
-                context.getResources().getResourceTypeName(resID) + '/' +
-                context.getResources().getResourceEntryName(resID));
-    }
-
-    public static void closeKeyboard(Activity activity) {
-        if (activity != null) {
-            View view = activity.getCurrentFocus();
-            if (view != null) {
-                InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
+        // Enable verbose logging in debug builds
+        if (BuildConfig.DEBUG) {
+            com.layer.atlas.util.Log.setLoggingEnabled(true);
+            LayerClient.setLoggingEnabled(this, true);
         }
 
+        // Allow the LayerClient to track app state
+        LayerClient.applicationCreated(this);
+
     }
 
-    public static String getVersionName(Context context) {
-        try {
-            return (context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            return "";
-        }
-    }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
     }
+
+
+    //==============================================================================================
+    // Getters / Setters
+    //==============================================================================================
+
+
+    public static LayerClient.Options getLayerOption() {
+        // Custom options for constructing a LayerClient
+        LayerClient.Options options = new LayerClient.Options()
+
+                    /* Fetch the minimum amount per conversation when first authenticated */
+                .historicSyncPolicy(LayerClient.Options.HistoricSyncPolicy.FROM_LAST_MESSAGE)
+
+                    /* Automatically download text and ThreePartImage info/preview */
+                .autoDownloadMimeTypes(Arrays.asList(
+                        TextCellFactory.MIME_TYPE,
+                        ThreePartImageUtils.MIME_TYPE_INFO,
+                        ThreePartImageUtils.MIME_TYPE_PREVIEW));
+        return options;
+    }
+
+    public static Picasso getPicasso(Context context, LayerClient layerClient) {
+        if (sPicasso == null) {
+            // Picasso with custom RequestHandler for loading from Layer MessageParts.
+            sPicasso = new Picasso.Builder(context)
+                    .addRequestHandler(new MessagePartRequestHandler(layerClient))
+                    .build();
+        }
+        return sPicasso;
+    }
+
 
     public static boolean isAppInForeground(Context context) {
         Log.d(TAG, "Checking app");

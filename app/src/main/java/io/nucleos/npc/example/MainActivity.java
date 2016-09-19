@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -14,8 +15,8 @@ import io.nucleos.nuclearpore.backend.manager.NuclearPore;
 
 public class MainActivity extends AppCompatActivity implements NuclearPore.AuthLayerListener {
 
-    @Bind(R.id.id_layer)
-    EditText mEditTextIdLayer;
+    @Bind(R.id.spinner)
+    Spinner mSpinner;
     @Bind(R.id.button_connect)
     Button mButtonConnect;
 
@@ -37,16 +38,24 @@ public class MainActivity extends AppCompatActivity implements NuclearPore.AuthL
 
     @OnClick(R.id.button_connect)
     public synchronized void connect(View view) {
-        if (mEditTextIdLayer.getText() != null &&
-                !mEditTextIdLayer.getText().toString().trim().isEmpty()) {
-            mUserId = mEditTextIdLayer.getText().toString().trim();
-            mButtonConnect.setEnabled(false);
-            NuclearPore
-                    .instance(this)
-                    .setAuthorization("Bearer 2afa99e00cc73f246d55b27d36ff7282")
-                    .setUserId(mUserId)
-                    .loadLayerClient(this);
+        String header = "";
+
+        switch (mSpinner.getSelectedItemPosition()) {
+            case 0:
+                header = "Bearer 6ef2641565def33017a06b10b1dfc018";
+                break;
+            case 1:
+                header = "Bearer 2afa99e00cc73f246d55b27d36ff7282";
+                break;
         }
+
+        mUserId = mSpinner.getSelectedItem().toString();
+        mButtonConnect.setEnabled(false);
+        NuclearPore
+                .instance(this)
+                .setAuthorization(header)
+                .setUserId(mUserId)
+                .loadLayerClient(this);
     }
 
     @Override

@@ -43,18 +43,6 @@
             android:gravity="bottom"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_message"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:hint="escribir aqui..." />
-
-            <Button
-                android:id="@+id/button_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="send" />
-
             <com.layer.atlas.AtlasMessageComposer
                 android:id="@+id/message_composer"
                 android:layout_width="match_parent"

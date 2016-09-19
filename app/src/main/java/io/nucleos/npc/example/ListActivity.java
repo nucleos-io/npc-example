@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.layer.atlas.AtlasConversationsRecyclerView;
 import com.layer.atlas.adapters.AtlasConversationsAdapter;
+import com.layer.sdk.LayerClient;
 import com.layer.sdk.messaging.Conversation;
 import com.squareup.picasso.Picasso;
 
@@ -51,10 +52,12 @@ public class ListActivity extends AppCompatActivity implements
 
         mUserId = getIntent().getExtras().getString("userId");
 
-        Picasso picasso = Picasso.with(this);
+
+        LayerClient layerClient = NuclearPore.instance(this).getLayerClient();
+        Picasso picasso = App.getPicasso(this, layerClient);
 
         mRecyclerView
-                .init(NuclearPore.instance(this).getLayerClient(), picasso)
+                .init(layerClient, picasso)
                 .setOnConversationClickListener(new AtlasConversationsAdapter.OnConversationClickListener() {
                     public void onConversationClick(AtlasConversationsAdapter adapter, Conversation conversation) {
                         launchMessagesList(conversation);
@@ -68,16 +71,13 @@ public class ListActivity extends AppCompatActivity implements
 
     private void launchMessagesList(Conversation conversation) {
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("chatId", conversation.getId());
+        intent.putExtra("chatId", conversation.getId().toString());
         startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        NuclearPore
-                .instance(this)
-                .loadConversations(this);
     }
 
     @OnClick(R.id.fab)
@@ -114,7 +114,6 @@ public class ListActivity extends AppCompatActivity implements
     @Override
     public void onCreateConversationSuccess(Conversation conversation) {
         Log.d(TAG, "onCreateConversationSuccess " + conversation.getParticipants());
-        mAdapter.add(conversation);
     }
 
     @Override

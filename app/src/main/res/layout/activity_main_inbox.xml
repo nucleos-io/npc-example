@@ -10,13 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-
-    <EditText
-        android:id="@+id/id_layer"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="User ID"
-        android:text="57df28ec677b2a10007bc428"/>
+        android:entries="@array/array_ids">
+
+    </Spinner>
 
     <Button
         android:id="@+id/button_connect"
