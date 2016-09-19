@@ -3,6 +3,7 @@ package io.nucleos.npc.example;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,8 @@ import butterknife.OnClick;
 import io.nucleos.nuclearpore.backend.manager.NuclearPore;
 
 public class MainActivity extends AppCompatActivity implements NuclearPore.AuthLayerListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.spinner)
     Spinner mSpinner;
@@ -59,11 +62,16 @@ public class MainActivity extends AppCompatActivity implements NuclearPore.AuthL
     }
 
     @Override
-    public void onUserAuthenticatedSuccess() {
+    public synchronized void onUserAuthenticatedSuccess() {
+        Log.d(TAG, "onUserAuthenticatedSuccess: -------------------------------------------------------------------------------------------");
+        NuclearPore
+                .instance(this)
+                .setListenerAuth(null);
         mButtonConnect.setEnabled(false);
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("userId", mUserId);
         startActivity(intent);
+        finish();
     }
 
     @Override

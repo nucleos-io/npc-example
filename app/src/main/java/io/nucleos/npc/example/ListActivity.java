@@ -70,6 +70,7 @@ public class ListActivity extends AppCompatActivity implements
     }
 
     private void launchMessagesList(Conversation conversation) {
+        conversation.getLastMessage().delete(LayerClient.DeletionMode.ALL_PARTICIPANTS);
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("chatId", conversation.getId().toString());
         startActivity(intent);
